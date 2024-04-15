@@ -4,6 +4,8 @@ import UserLogin from '../components/UserLogin.vue'
 import UserSignup from '../components/UserSignup.vue'
 import AdminLogin from '../components/AdminLogin.vue'
 import UserDashboard from '../components/UserDashboard.vue'
+import CreateSection from '../components/CreateSection.vue'
+import CreateBook from '../components/CreateBook.vue'
 
 
 const routes = [
@@ -31,7 +33,17 @@ const routes = [
         path: '/dashboard/:userid',
         name: 'UserDashboard',
         component: UserDashboard
-      }
+      },
+      {
+        path: '/create/section',
+        name: 'CreateSection',
+        component: CreateSection
+      },
+      {
+        path: '/create/book/:sectionid',
+        name: 'CreateBook',
+        component: CreateBook
+      },
   ]
   
   const router = createRouter({
