@@ -6,6 +6,9 @@ import AdminLogin from '../components/AdminLogin.vue'
 import UserDashboard from '../components/UserDashboard.vue'
 import CreateSection from '../components/CreateSection.vue'
 import CreateBook from '../components/CreateBook.vue'
+import DeleteSection from '../components/DeleteSection.vue'
+import DeleteBook from '../components/DeleteBook.vue'
+import EditSection from '../components/EditSection.vue'
 
 
 const routes = [
@@ -44,6 +47,21 @@ const routes = [
         name: 'CreateBook',
         component: CreateBook
       },
+      {
+        path: '/delete/section',
+        name: 'DeleteSection',
+        component: DeleteSection
+      },
+      {
+        path: '/delete/book',
+        name: 'DeleteBook',
+        component: DeleteBook
+      },
+      {
+        path: '/edit/section/:sectionid',
+        name: 'EditSection',
+        component: EditSection
+      }
   ]
   
   const router = createRouter({
