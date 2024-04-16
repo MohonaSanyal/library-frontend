@@ -9,6 +9,7 @@ import CreateBook from '../components/CreateBook.vue'
 import DeleteSection from '../components/DeleteSection.vue'
 import DeleteBook from '../components/DeleteBook.vue'
 import EditSection from '../components/EditSection.vue'
+import BookRating from '../components/BookRating.vue'
 
 
 const routes = [
@@ -61,6 +62,11 @@ const routes = [
         path: '/edit/section/:sectionid',
         name: 'EditSection',
         component: EditSection
+      },
+      {
+        path: '/rating/book/:bookid/:userid',
+        name: 'BookRating',
+        component: BookRating
       }
   ]
   
