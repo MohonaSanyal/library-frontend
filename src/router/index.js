@@ -9,7 +9,13 @@ import CreateBook from '../components/CreateBook.vue'
 import DeleteSection from '../components/DeleteSection.vue'
 import DeleteBook from '../components/DeleteBook.vue'
 import EditSection from '../components/EditSection.vue'
+import EditBook from '../components/EditBook.vue'
 import BookRating from '../components/BookRating.vue'
+import AdminDashboard from '../components/AdminDashboard.vue'
+import BookAllocation from '../components/BookAllocation.vue'
+import SearchBooks from '../components/SearchBooks.vue'
+import BookRequests from '../components/BookRequests.vue'
+import MyBooks from '../components/MyBooks.vue'
 
 
 const routes = [
@@ -49,12 +55,12 @@ const routes = [
         component: CreateBook
       },
       {
-        path: '/delete/section',
+        path: '/delete/section/:sectionid',
         name: 'DeleteSection',
         component: DeleteSection
       },
       {
-        path: '/delete/book',
+        path: '/delete/book/:bookid',
         name: 'DeleteBook',
         component: DeleteBook
       },
@@ -64,10 +70,40 @@ const routes = [
         component: EditSection
       },
       {
+        path: '/edit/book/:bookid',
+        name: 'EditBook',
+        component: EditBook
+      },
+      {
         path: '/rating/book/:bookid/:userid',
         name: 'BookRating',
         component: BookRating
-      }
+      },
+      {
+        path: '/admin/dashboard',
+        name: 'AdminDashboard',
+        component: AdminDashboard
+      },
+      {
+        path: '/allocation',
+        name: 'BookAllocation',
+        component: BookAllocation    
+      },
+      {
+        path: '/search',
+        name: 'SearchBooks',
+        component: SearchBooks
+      },
+      {
+        path: '/requests',
+        name: 'BookRequests',
+        component: BookRequests    
+      },
+      {
+        path: '/mybooks/:userid',
+        name: 'MyBooks',
+        component: MyBooks    
+      },
   ]
   
   const router = createRouter({

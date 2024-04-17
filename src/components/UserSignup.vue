@@ -1,4 +1,4 @@
-<template>
+  <template>
     <div>
       <div class="jumbotron text-center cyan">
         <h2>SignUp</h2>
@@ -32,7 +32,8 @@
         post:{
           email:null,
           name:null,
-          password:null
+          password:null,
+          role:0,
         }
       }
     },
@@ -41,7 +42,7 @@
       submitData(e){
           axios({
           method: "post",
-          url: 'https://ticketshow-api.onrender.com/signup',
+          url: 'https://library-backend-p75d.onrender.com/signup',
           data: this.post,
           headers: {
             "Content-Type": "application/json",

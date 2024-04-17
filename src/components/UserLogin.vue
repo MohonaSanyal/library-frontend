@@ -31,6 +31,7 @@
           post: {
               email:null,
               password:null,
+              role:0
           }
       }
     },
@@ -39,7 +40,7 @@
       submitData(e){
           axios({
           method: "post",
-          url: 'https://ticketshow-api.onrender.com/login',
+          url: 'https://library-backend-p75d.onrender.com/login',
           data: this.post,
           headers: {
             "Content-Type": "application/json",

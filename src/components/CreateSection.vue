@@ -3,7 +3,7 @@
   <div>
     <div class="jumbotron text-center cyan">
       <h2>Create Section</h2>
-      <router-link to="/admindashboard">See all already created sections here</router-link>
+      <router-link to="/admin/dashboard">See all already created sections here</router-link>
     </div>
     <div class="container box" style="text-align:center;">
       <form>
@@ -11,7 +11,7 @@
           <label for="name">Name:</label>
           <input type="text" class="form-control" name="name" v-model="venue.name">
           <label for="address">Description:</label>
-          <input type="text" class="form-control" name="address" v-model="venue.address">
+          <input type="text" class="form-control" name="description" v-model="venue.desc">
         </div>
         <button type="submit" class="btn btn-primary" @click="submitData">Create</button>
       </form>
@@ -41,9 +41,8 @@ export default {
   data() {
     return {
       venue: {
-        address: null,
+        desc: null,
         name: null,
-        capacity: null
       }
     };
   },
@@ -51,7 +50,7 @@ export default {
     submitData(e) {
       axios({
         method: "post",
-        url: `https://ticketshow-api.onrender.com/createVenue`,
+        url: `https://library-backend-p75d.onrender.com/create/section`,
         data: this.venue,
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +58,7 @@ export default {
       })
         .then((result) => {
           console.log(result.data);
-          let dashurl = '/admindashboard/';
+          let dashurl = '/admin/dashboard/';
           this.$router.push({ path: dashurl });
         })
         .catch((err) => {

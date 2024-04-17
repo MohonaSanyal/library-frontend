@@ -2,7 +2,6 @@
     <div>
       <div class="jumbotron text-center cyan">
         <h2>Admin SignIn</h2>
-        <p>Enter password : "12345#"</p>
         <router-link to="/">Go to home</router-link>
       </div>
       <div class="container box" style="text-align: center;">
@@ -24,7 +23,9 @@
     data(){
       return {
           post: {
+              email:"admin@gmail.com",
               password:null,
+              role:1,
           }
       }
     },
@@ -33,7 +34,7 @@
       submitData(e){
           axios({
           method: "post",
-          url: 'https://ticketshow-api.onrender.com/adminAuth',
+          url: 'https://library-backend-p75d.onrender.com/login',
           data: this.post,
           headers: {
             "Content-Type": "application/json",
@@ -41,7 +42,7 @@
           })
           .then((result) => {
             console.log(result.data)
-            let dashurl = '/admindashboard'
+            let dashurl = '/admin/dashboard'
             this.$router.push({path: dashurl})
           }).catch((err) => {
             window.alert(err)

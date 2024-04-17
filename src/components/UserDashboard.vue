@@ -1,119 +1,84 @@
 <template>
-    <div v-if="venues">
-      <div v-if="this.$route.params.userid">
-      <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-        <h1 class="navbar-brand">Dashboard</h1>
-        <router-link :to="{  }" class="btn btn-outline-primary">My Bookings</router-link>
-        <router-link to="/" class="btn btn-outline-primary">Search Shows</router-link>
-        <button class="btn btn-primary" @click="logout">Logout</button>
-      </nav>
+  <div class="container mt-4">
+    <nav class="navbar navbar-dark bg-dark mb-4">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">User Dashboard</span>
+        <button class="btn btn-primary" @click="navigateToSearch">Search</button>
+        <button class="btn btn-primary" @click="navigateToBooks">My Books</button>
       </div>
-      <div v-for="venue in venues" :key= "venue.id">
-        <div class="my-div-outer">
-          <div class="row">
-            <div class="font-weight-bold my-text">{{ venue.name }}</div>
-            <div class="my-text">{{ venue.address }}</div>
-            <div class="my-text">Capacity: {{ venue.capacity }}</div>
-          </div>
-          <div v-if="venue.shows">
-          <div v-for="show in venue.shows" :key="show.id">
-            <div class="my-div">
-              <div class="row">
-                <div class="font-weight-bold my-text">{{ show.title }}</div>
-                <div class="my-text">{{ show.starting_time }} to {{ show.ending_time }}</div>
-                <div class="my-text">{{ show.tags }}</div>
-              </div>
-              <div class="row">
-                <div class="my-text">Seats left: {{ show.capacity }}</div>
-                <div v-if="show.capacity==0">
-                  <a href="#" class="btn btn-outline-secondary">HouseFull</a>
-                </div>
-                <div v-else>
-                  <router-link :to="{  }" class="btn btn-outline-primary">Book</router-link>
-                </div>
-                <div class="my-text">Ticket Price: ₹{{ show.ticket_price }}</div>
-              </div>
-            </div>
-          </div>
-          </div>
+    </nav>
+    <div v-for="section in sections" :key="section.id" class="card mb-3">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title">{{ section.name }}</h5>
+          <p>{{ section.desc }}</p>
         </div>
       </div>
+      <ul class="list-group list-group-flush">
+        <li v-for="(book, idx) in section.items" :key="idx" class="list-group-item">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">{{ book.name }}</h6>
+              <p class="card-text">{{ book.authors }}</p>
+              <p class="card-text">Rs. {{ book.ebook_price }}</p>
+            </div>
+            <div>
+              <button class="btn btn-primary btn-sm me-2" @click="reqBook(book.id)">Request</button>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
-  </template>
-  
-  
-  <script>
-  import axios from 'axios'
-  
-  export default {
-      name: 'UserDashboard',
-      data(){
-          return{
-              userid:null,
-              venues: [],
-          }
-      },
-      created(){
-        this.fetchData()
-      },
-      methods: {
-        async fetchData() {
-        try {
-          console.log(this.$route.params.userid)
-          const response = await axios.get('https://ticketshow-api.onrender.com/shows');
-          this.venues = response.data;
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      },
-      logout(){
-          this.$router.replace({ path: '/' });
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      sections: []
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const response = await axios.get('https://library-backend-p75d.onrender.com/books');
+        this.sections = response.data.sections;
+        console.log(this.sections)
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-      },
-  
+    },
+    reqBook(book_id) {
+        axios({
+          method: 'post',
+          url: `https://library-backend-p75d.onrender.com/books/req/${book_id}`,
+          data: {user_id: this.$route.params.userid},
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((result) => {
+            window.alert("Request sent !");
+            console.log(result.data)
+            let dashurl = `/dashboard/${this.$route.params.userid}`;
+            this.$router.push({ path: dashurl });
+          })
+          .catch((err) => {
+            window.alert(err.response.data);
+          });
+    },
+    navigateToSearch() {
+      this.$router.push('/search');
+    },
+    navigateToBooks() {
+      this.$router.push(`/mybooks/${this.$route.params.userid}`);
+    }
   }
-  </script>
-  
-  <style>
-    .single {
-      margin: auto;
-    }
-    .bottom {
-      margin-bottom: 100px;
-    }
-    .my-div {
-      background-color: aliceblue;
-      border-radius: 16px;
-      border: 1px solid black;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      margin: 20px;
-    }
-  
-    .my-div-outer {
-      background-color: #f6f7ff;
-      border-radius: 16px;
-      border: 1px solid black;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      margin: 20px;
-    }
-    .my-text {
-      margin: 4px;
-    }
-  
-    .row {
-      display: flex;
-      justify-content: space-between;
-    }
-    header {
-      text-align: center;
-    }
-  
-    body {
-      text-align: center;
-      background-color: #f6f7ff;
-    }
-  </style>
+};
+</script>
